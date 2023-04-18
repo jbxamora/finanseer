@@ -5,6 +5,10 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import helmet from "helmet";
 import morgan from "morgan";
+import kpiRoutes from "./routes/kpi.js"
+
+// ROUTES
+app.use("/kpi", kpiRoutes);
 
 // CONFIG
 dotenv.config();
