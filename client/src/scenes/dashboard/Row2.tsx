@@ -32,18 +32,18 @@ const Row2 = () => {
 
     const productExpenseData = useMemo(() => {
       return (
-        operationalData &&
-        operationalData[0].monthlyData.map(
-          ({ month, operationalExpenses, nonOperationalExpenses }) => {
+        productData &&
+        productData.map(
+          ({ _id, price, expense }) => {
             return {
-              name: month.substring(0, 3),
-              "Operational Expenses": operationalExpenses,
-              "Non Operational Expenses": nonOperationalExpenses,
+              id: _id,
+              price: price,
+              expense: expense
             };
           }
         )
       );
-    }, [operationalData]);
+    }, [productData]);
 
   return (
     <>
@@ -59,8 +59,8 @@ const Row2 = () => {
             margin={{
               top: 20,
               right: 0,
-              left: -10,
               bottom: 55,
+              left: -10,
             }}
           >
             <CartesianGrid vertical={false} stroke={palette.grey[800]} />
@@ -157,7 +157,7 @@ const Row2 = () => {
               top: 12,
               right: 25,
               bottom: 50,
-              left: -20,
+              left: -15,
             }}
           >
             <CartesianGrid stroke={palette.grey[800]} />
