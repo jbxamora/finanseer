@@ -103,7 +103,7 @@ const Row2 = () => {
 
       {/* AREA E */}
       <DashboardBox gridArea="e">
-        <BoxHeader title="Campaigns and Targets" sideText="+4%" />
+        <BoxHeader title="Campaigns and Targets" sideText="+24% This Month" />
         <FlexBetween mt="0.25rem" gap="1.5rem" pr="1rem">
           <PieChart
             width={110}
@@ -150,7 +150,7 @@ const Row2 = () => {
 
       {/* AREA F */}
       <DashboardBox gridArea="f">
-        <BoxHeader title="Product Prices vs Expenses" sideText="+4%" />
+        <BoxHeader title="Product Prices vs Expenses" sideText="13% Above Average" />
         <ResponsiveContainer width="100%" height="100%">
           <ScatterChart
             margin={{
