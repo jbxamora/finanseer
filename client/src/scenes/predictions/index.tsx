@@ -1,10 +1,14 @@
-import DashboardBox from '@/components/DashboardBox';
-import FlexBetween from '@/components/FlexBetween';
-import { useGetKpisQuery } from '@/state/api';
+import  { useState, useMemo } from 'react'
 import { useTheme } from '@emotion/react'
 import { Box, Button, Typography } from '@mui/material';
-import  { useState, useMemo } from 'react'
+
+import { useGetKpisQuery } from '@/state/api';
+
+import DashboardBox from '@/components/DashboardBox';
+import FlexBetween from '@/components/FlexBetween';
+
 import { CartesianGrid, Legend, Line, LineChart, XAxis, YAxis, Tooltip, ResponsiveContainer, Label } from 'recharts';
+
 import regression, { DataPoint } from "regression";
 
 const Predictions = () => {
@@ -46,8 +50,8 @@ const Predictions = () => {
         <Button
           onClick={() => setIsPredictions(!isPredictions)}
           sx={{
-            color: palette.grey[900],
-            backgroundColor: palette.grey[700],
+            color: palette.grey[100],
+            backgroundColor: palette.grey[800],
             boxShadow: "0.1rem 0.1rem 0.1rem 0.1rem rgba(0,0,0,.4)",
           }}
         >
