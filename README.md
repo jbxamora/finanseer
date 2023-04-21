@@ -1,8 +1,10 @@
 ## Finanseer
 
 A Finance App Dashboard designed to provide valuable insights and financial data visualization. The dashboard includes various types of charts, a data grid for displaying product and order information, and machine learning predictions for revenue forecasting.
+
 ## Take A Look!
 
+`WILL TAKE A MINUTE FOR API DATA TO LOAD`
 https://finanseer-4bdg.onrender.com
 
 ## Tech Stack
