@@ -1,26 +1,29 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import PixIcon from "@mui/icons-material/Pix"
+import PixIcon from "@mui/icons-material/Pix";
 import { Box, Typography, useTheme } from "@mui/material";
 import FlexBetween from "@/components/FlexBetween";
 
-type Props = {};
+const Navbar = () => {
+  const { palette } = useTheme(); // Access the theme's palette
+  const [selected, setSelected] = useState("dashboard"); // Track the selected tab in the state
 
-const Navbar = (props: Props) => {
-  const { palette } = useTheme();
-  const [selected, setSelected] = useState("dashboard");
   return (
-    <FlexBetween mb="0.25rem" p="0.5rem 0rem" color={palette.grey[300]}>
-      {/* Left */}
+    <FlexBetween mb="0.25rem" p="0.5rem 0rem" color="#ADD8E6">
+      {/* Left side of the Navbar */}
       <FlexBetween gap="0.75rem">
-        <PixIcon sx={{ fontSize: "28px" }} />
-        <Typography variant="h4" fontSize="16px">
-          Finanseer
+        <PixIcon sx={{ fontSize: "28px" }} /> {/* Logo icon */}
+        <Typography variant="h4" fontSize="16px" color="#ADD8E6">
+          Finanseer {/* Logo text */}
         </Typography>
       </FlexBetween>
-      {/* Right */}
+
+      {/* Right side of the Navbar */}
       <FlexBetween gap="2rem">
+        {/* Empty box for potential future use */}
         <Box sx={{ "&:hover": { color: palette.primary[100] } }}></Box>
+
+        {/* Dashboard Link */}
         <Link
           to="/"
           onClick={() => setSelected("dashboard")}
@@ -31,6 +34,8 @@ const Navbar = (props: Props) => {
         >
           Dashboard
         </Link>
+
+        {/* Predictions Link */}
         <Box>
           <Link
             to="/predictions"

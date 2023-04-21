@@ -14,25 +14,33 @@ import { DataGrid, GridCellParams } from "@mui/x-data-grid";
 import { Cell, Pie, PieChart } from "recharts";
 
 const Row3 = () => {
-  const { palette } = useTheme();
+  const { palette } = useTheme(); // Access the theme's palette
   const pieColors = [palette.primary[800], palette.primary[500]];
 
+  // Fetch data using API hooks
   const { data: kpiData } = useGetKpisQuery();
   const { data: productData } = useGetProductsQuery();
   const { data: transactionData } = useGetTransactionsQuery();
 
+  // Function to capitalize the first letter of a string
+  const capitalizeFirstLetter = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+
+  // Prepare pie chart data
   const pieChartData = useMemo(() => {
     if (kpiData) {
       const totalExpenses = kpiData[0].totalExpenses;
       return Object.entries(kpiData[0].expensesByCategory).map(
         ([key, value]) => {
+          const capitalizedKey = capitalizeFirstLetter(key);
           return [
             {
-              name: key,
+              name: capitalizedKey,
               value: value,
             },
             {
-              name: `${key} of Total`,
+              name: `${capitalizedKey} of Total`,
               value: totalExpenses - value,
             },
           ];
@@ -41,6 +49,7 @@ const Row3 = () => {
     }
   }, [kpiData]);
 
+  // Column configuration for the product data grid
   const productColumns = [
     {
       field: "_id",
@@ -61,6 +70,7 @@ const Row3 = () => {
     },
   ];
 
+  // Column configuration for the transaction data grid
   const transactionColumns = [
     {
       field: "_id",

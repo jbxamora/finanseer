@@ -1,69 +1,71 @@
- import { useMemo } from 'react'
- import DashboardBox from '@/components/DashboardBox';
-import { useGetKpisQuery } from '@/state/api';
-import { 
-  AreaChart, 
+import { useMemo } from "react";
+import { useTheme } from "@mui/material";
+
+import BoxHeader from "@/components/BoxHeader";
+import DashboardBox from "@/components/DashboardBox";
+
+import { useGetKpisQuery } from "@/state/api";
+
+import {
+  AreaChart,
   ResponsiveContainer,
   XAxis,
   YAxis,
   Tooltip,
-  Area, 
+  Area,
   Line,
   CartesianGrid,
   Legend,
   LineChart,
   BarChart,
   Bar,
-} from 'recharts';
-import { useTheme } from '@mui/material';
-import BoxHeader from '@/components/BoxHeader';
-
+} from "recharts";
 
 const Row1 = () => {
-    const { palette } = useTheme();
-    const { data } = useGetKpisQuery();
+  const { palette } = useTheme(); // Access the theme's palette
+  const { data } = useGetKpisQuery(); // Fetch data using API hook
 
-    // Revenue + Expenses || Area A
-    const revenueExpenses = useMemo(()=> {
-      return (
-        data &&
-        data[0].monthlyData.map(({ month, revenue, expenses }) => {
-          return {
-            name: month.substring(0, 3),
-            revenue: revenue,
-            expenses: expenses,
-          }
-        })
-      );
-    }, [data])
+  // Prepare revenue and expenses data for Area A chart
+  const revenueExpenses = useMemo(() => {
+    return (
+      data &&
+      data[0].monthlyData.map(({ month, revenue, expenses }) => {
+        return {
+          name: month.substring(0, 3),
+          revenue: revenue,
+          expenses: expenses,
+        };
+      })
+    );
+  }, [data]);
 
-    // Revenue + Profit || Area B
-     const revenueProfit = useMemo(() => {
-       return (
-         data &&
-         data[0].monthlyData.map(({ month, revenue, expenses }) => {
-           return {
-             name: month.substring(0, 3),
-             revenue: revenue,
-             profit: (revenue - expenses).toFixed(2),
-           };
-         })
-       );
-     }, [data]);
+  // Prepare revenue and profit data for Area B chart
+  const revenueProfit = useMemo(() => {
+    return (
+      data &&
+      data[0].monthlyData.map(({ month, revenue, expenses }) => {
+        return {
+          name: month.substring(0, 3),
+          revenue: revenue,
+          profit: (revenue - expenses).toFixed(2),
+        };
+      })
+    );
+  }, [data]);
 
-      // Revenue || Area C
-       const revenue = useMemo(() => {
-         return (
-           data &&
-           data[0].monthlyData.map(({ month, revenue, expenses }) => {
-             return {
-               name: month.substring(0, 3),
-               revenue: revenue,
-               profit: (revenue - expenses).toFixed(2),
-             };
-           })
-         );
-       }, [data]);
+  // Prepare revenue data for Area C chart
+  const revenue = useMemo(() => {
+    return (
+      data &&
+      data[0].monthlyData.map(({ month, revenue, expenses }) => {
+        return {
+          name: month.substring(0, 3),
+          revenue: revenue,
+          profit: (revenue - expenses).toFixed(2),
+        };
+      })
+    );
+  }, [data]);
 
   return (
     <>
@@ -207,11 +209,11 @@ const Row1 = () => {
 
       {/* AREA C */}
       <DashboardBox gridArea="c">
-          <BoxHeader
-            title="Revenue by Month"
-            subtitle="Graph Displays Revenue by Month"
-            sideText="+17% This Year"
-          />
+        <BoxHeader
+          title="Revenue by Month"
+          subtitle="Graph Displays Revenue by Month"
+          sideText="+17% This Year"
+        />
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             width={500}
@@ -257,6 +259,6 @@ const Row1 = () => {
       </DashboardBox>
     </>
   );
-}
+};
 
-export default Row1
+export default Row1;

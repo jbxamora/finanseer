@@ -1,10 +1,27 @@
-import React, { useMemo } from "react";
-import DashboardBox from "@/components/DashboardBox";
-import { useGetKpisQuery, useGetProductsQuery } from "@/state/api";
-import BoxHeader from "@/components/BoxHeader";
-import { CartesianGrid, Line, LineChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Cell, PieChart, Pie, ScatterChart, Scatter, ZAxis } from "recharts";
+import { useMemo } from "react";
 import { useTheme, Box, Typography } from "@mui/material";
+
+import DashboardBox from "@/components/DashboardBox";
 import FlexBetween from "@/components/FlexBetween";
+import BoxHeader from "@/components/BoxHeader";
+
+import { useGetKpisQuery, useGetProductsQuery } from "@/state/api";
+
+import {
+  CartesianGrid,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Cell,
+  PieChart,
+  Pie,
+  ScatterChart,
+  Scatter,
+  ZAxis,
+} from "recharts";
 
 const pieData = [
   { name: "Group A", value: 600 },
@@ -12,38 +29,42 @@ const pieData = [
 ];
 
 const Row2 = () => {
-  const { palette } = useTheme();
+  const { palette } = useTheme(); // Access the theme's palette
   const pieColors = [palette.primary[800], palette.primary[300]];
+
+  // Fetch data using API hooks
   const { data: operationalData } = useGetKpisQuery();
   const { data: productData } = useGetProductsQuery();
 
-  const operationalExpenses = useMemo(()=> {
-      return (
-        operationalData &&
-        operationalData[0].monthlyData.map(({ month, operationalExpenses, nonOperationalExpenses }) => {
+  // Prepare operational expenses data for the chart
+  const operationalExpenses = useMemo(() => {
+    return (
+      operationalData &&
+      operationalData[0].monthlyData.map(
+        ({ month, operationalExpenses, nonOperationalExpenses }) => {
           return {
             name: month.substring(0, 3),
             "Operational Expenses": operationalExpenses,
-            "Non Operational Expenses": nonOperationalExpenses
-          }
-        })
-      );
-    }, [operationalData]);
+            "Non Operational Expenses": nonOperationalExpenses,
+          };
+        }
+      )
+    );
+  }, [operationalData]);
 
-    const productExpenseData = useMemo(() => {
-      return (
-        productData &&
-        productData.map(
-          ({ _id, price, expense }) => {
-            return {
-              id: _id,
-              price: price,
-              expense: expense
-            };
-          }
-        )
-      );
-    }, [productData]);
+  // Prepare product expense data for the chart
+  const productExpenseData = useMemo(() => {
+    return (
+      productData &&
+      productData.map(({ _id, price, expense }) => {
+        return {
+          id: _id,
+          price: price,
+          expense: expense,
+        };
+      })
+    );
+  }, [productData]);
 
   return (
     <>
@@ -150,7 +171,10 @@ const Row2 = () => {
 
       {/* AREA F */}
       <DashboardBox gridArea="f">
-        <BoxHeader title="Product Prices vs Expenses" sideText="13% Above Average" />
+        <BoxHeader
+          title="Product Prices vs Expenses"
+          sideText="13% Above Average"
+        />
         <ResponsiveContainer width="100%" height="100%">
           <ScatterChart
             margin={{
