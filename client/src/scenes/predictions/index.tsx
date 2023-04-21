@@ -5,50 +5,57 @@ import { useTheme } from '@emotion/react'
 import { Box, Button, Typography } from '@mui/material';
 import  { useState, useMemo } from 'react'
 import { CartesianGrid, Legend, Line, LineChart, XAxis, YAxis, Tooltip, ResponsiveContainer, Label } from 'recharts';
-import { DataPoint } from "regression";
+import regression, { DataPoint } from "regression";
 
 const Predictions = () => {
-    const { palette } = useTheme();
-    const [isPredictions, setIsPredictions] = useState(false);
-    const { data: kpiData } = useGetKpisQuery();
+  const { palette } = useTheme();
+  const [isPredictions, setIsPredictions] = useState(false);
+  const { data: kpiData } = useGetKpisQuery();
 
-    const formattedData = useMemo(() => {
-        if (!kpiData) return [];
-        const monthData = kpiData[0].monthlyData;
+  const formattedData = useMemo(() => {
+    if (!kpiData) return [];
+    const monthData = kpiData[0].monthlyData;
 
-        const formatted = Array<DataPoint> = monthData.map(
-            ({ month, revenue, expenses }, i: number) => {
-                return [i, revenue]
-            }
-        );
-        const regressionLine = regression.linear(formatted);
-    }, [kpiData])
+    const formatted: Array<DataPoint> = monthData.map(
+      ({ revenue }, i: number) => {
+        return [i, revenue];
+      }
+    );
+    const regressionLine = regression.linear(formatted);
+
+    return monthData.map(({ month, revenue }, i: number) => {
+      return {
+        name: month,
+        "Actual Revenue": revenue,
+        "Regression Line": regressionLine.points[i][1],
+        "Predicted Revenue": regressionLine.predict(i + 12)[1],
+      };
+    });
+  }, [kpiData]);
 
   return (
     <DashboardBox width="100%" height="100%" p="1rem" overflow="hidden">
       <FlexBetween m="1rem 2.5rem" gap="1rem">
         <Box>
-          <Typography variant="h3">Revenue & Predictions</Typography>
+          <Typography variant="h3">Revenue and Predictions</Typography>
           <Typography variant="h5">
-            Charted Revenue & Predicted Revenue Based On a Simple Linear
+            Charted Revenue & Predicted Revenue Based On A Simple Linear
             Regression Model
           </Typography>
         </Box>
         <Button
           onClick={() => setIsPredictions(!isPredictions)}
           sx={{
-            color: palette.grey[100],
+            color: palette.grey[900],
             backgroundColor: palette.grey[700],
-            boxShadow: "0.1rem 0.1rem 0.1rem 0.1rem rbga(0,0,0,.4)",
+            boxShadow: "0.1rem 0.1rem 0.1rem 0.1rem rgba(0,0,0,.4)",
           }}
         >
-          Show Predicted Revenue For Next Year
+          Show Predicted Revenue for Next Year
         </Button>
       </FlexBetween>
       <ResponsiveContainer width="100%" height="100%">
         <LineChart
-          width={500}
-          height={400}
           data={formattedData}
           margin={{
             top: 20,
@@ -61,9 +68,8 @@ const Predictions = () => {
           <XAxis dataKey="name" tickLine={false} style={{ fontSize: "10px" }}>
             <Label value="Month" offset={-5} position="insideBottom" />
           </XAxis>
-
           <YAxis
-            domain={[1200, 26000]}
+            domain={[12000, 26000]}
             axisLine={{ strokeWidth: "0" }}
             style={{ fontSize: "10px" }}
             tickFormatter={(v) => `$${v}`}
@@ -75,7 +81,6 @@ const Predictions = () => {
               position="insideLeft"
             />
           </YAxis>
-
           <Tooltip />
           <Legend verticalAlign="top" />
           <Line
@@ -93,16 +98,15 @@ const Predictions = () => {
           />
           {isPredictions && (
             <Line
-              type="monotone"
+              strokeDasharray="5 5"
               dataKey="Predicted Revenue"
               stroke={palette.secondary[500]}
-             
             />
           )}
         </LineChart>
       </ResponsiveContainer>
     </DashboardBox>
   );
-}
+};
 
-export default Predictions
+export default Predictions;
