@@ -1,6 +1,5 @@
 import  { useState, useMemo } from 'react'
-import { useTheme } from '@emotion/react'
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Typography, useTheme } from '@mui/material';
 
 import { useGetKpisQuery } from '@/state/api';
 

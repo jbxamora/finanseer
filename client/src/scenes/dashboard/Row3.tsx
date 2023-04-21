@@ -23,7 +23,7 @@ const Row3 = () => {
   const { data: transactionData } = useGetTransactionsQuery();
 
   // Function to capitalize the first letter of a string
-  const capitalizeFirstLetter = (str) => {
+  const capitalizeFirstLetter = (str: string) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
 
